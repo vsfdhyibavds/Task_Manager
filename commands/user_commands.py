@@ -54,3 +54,14 @@ def update_user(user_id, updates):
 
     db.commit()
     return {"message": "User updated successfully"}
+
+def delete_user(user_id):
+    db = next(get_db())
+
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        return {"error": "User not found"}
+
+    db.delete(user)
+    db.commit()
+    return {"message": f"User with ID {user_id} deleted successfully"}

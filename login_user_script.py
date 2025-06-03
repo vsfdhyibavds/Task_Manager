@@ -1,8 +1,8 @@
 from commands.user_commands import login_user
 
 def main():
-    username = "new_user"
-    password = "password123"
+    username = input("Enter username: ")
+    password = input("Enter password: ")
     result = login_user(username, password)
     print(result)
 

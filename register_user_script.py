@@ -1,9 +1,9 @@
 from commands.user_commands import register_user
 
 def main():
-    username = "new_user"
-    email = "new_user@example.com"
-    password = "password123"
+    username = input("Enter username: ")
+    email = input("Enter email: ")
+    password = input("Enter password: ")
     result = register_user(username, email, password)
     print(result)
 
