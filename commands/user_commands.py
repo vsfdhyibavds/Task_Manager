@@ -37,3 +37,20 @@ def login_user(username, password):
         "message": "Login successful",
         "token": f"dummy_token_{user.id}_{datetime.utcnow().timestamp()}"
     }
+
+def update_user(user_id, updates):
+    db = next(get_db())
+
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        return {"error": "User not found"}
+
+    if "username" in updates:
+        user.username = updates["username"]
+    if "email" in updates:
+        user.email = updates["email"]
+    if "password" in updates:
+        user.password = f"hashed_{updates['password']}"  # Simple hashing
+
+    db.commit()
+    return {"message": "User updated successfully"}

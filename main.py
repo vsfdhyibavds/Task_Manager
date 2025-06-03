@@ -1,5 +1,5 @@
 import click
-from commands.user_commands import register_user, login_user
+from commands.user_commands import register_user, login_user, update_user
 from commands.task_commands import (
     create_task, get_tasks, get_task_details,
     update_task, delete_task
@@ -43,6 +43,32 @@ def login(username, password):
         click.echo(f"Error: {result['error']}")
     else:
         click.echo(f"Login successful. Token: {result['token']}")
+
+@cli.command()
+@click.option('--user-id', prompt=True, type=int)
+@click.option('--username', required=False)
+@click.option('--email', required=False)
+@click.option('--password', required=False, hide_input=True)
+def update_user(user_id, username, email, password):
+    """Update user details"""
+    updates = {}
+    if username:
+        updates['username'] = username
+    if email:
+        updates['email'] = email
+    if password:
+        updates['password'] = password
+
+    if not updates:
+        click.echo("No updates provided")
+        return
+
+    from commands.user_commands import update_user as update_user_func
+    result = update_user_func(user_id, updates)
+    if 'error' in result:
+        click.echo(f"Error: {result['error']}")
+    else:
+        click.echo(result['message'])
 
 @cli.command()
 @click.option('--title', prompt=True)
