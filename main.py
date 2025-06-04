@@ -327,5 +327,29 @@ def subtask_delete(subtask_id, user_id):
     else:
         click.echo(result['message'])
 
+from commands.priority_commands import delete_priority
+
+@cli.command()
+@click.option('--priority-id', prompt=True, type=int)
+def priority_delete(priority_id):
+    """Delete a priority"""
+    result = delete_priority(priority_id)
+    if 'error' in result:
+        click.echo(f"Error: {result['error']}")
+    else:
+        click.echo(result['message'])
+
+from commands.priority_commands import delete_priority
+
+@cli.command()
+@click.option('--priority-id', prompt=True, type=int)
+def priority_delete(priority_id):
+    """Delete a priority"""
+    result = delete_priority(priority_id)
+    if 'error' in result:
+        click.echo(f"Error: {result['error']}")
+    else:
+        click.echo(result['message'])
+
 if __name__ == '__main__':
     cli()

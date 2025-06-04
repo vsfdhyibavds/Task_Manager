@@ -1,3 +1,5 @@
+Generic single-database configuration.
+
 # Task Manager CLI Application
 
 ## Description
@@ -32,7 +34,7 @@ python main.py init
 Alternatively, you can run the initialization script directly:
 
 ```bash
-python init_db.py
+python init_db.py or python3 init_db
 ```
 
 ## Usage
@@ -78,6 +80,8 @@ There is a test file `test_register_duplicate_email.py` to check for duplicate e
 Tests for task commands (add, update, delete) are implemented and passing.
 
 Tests for notes and subtasks commands are to be added.
+
+Additional tests have been implemented for full CRUD operations on categories, users, priorities, subtasks, and notes to ensure complete coverage and functionality.
 
 ## Notes
 

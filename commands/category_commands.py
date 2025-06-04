@@ -22,6 +22,23 @@ def get_categories(user_id):
     categories = db.query(Category).filter(Category.user_id == user_id).all()
     return categories
 
+def update_category(category_id, user_id, updates):
+    db = next(get_db())
+
+    category = db.query(Category).filter(
+        Category.id == category_id,
+        Category.user_id == user_id
+    ).first()
+
+    if not category:
+        return {"error": "Category not found or not authorized"}
+
+    for key, value in updates.items():
+        setattr(category, key, value)
+
+    db.commit()
+    return {"message": "Category updated"}
+
 def delete_category(category_id, user_id):
     db = next(get_db())
 
