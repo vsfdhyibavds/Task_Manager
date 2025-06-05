@@ -34,7 +34,7 @@ python main.py init
 Alternatively, you can run the initialization script directly:
 
 ```bash
-python init_db.py or python3 init_db
+python init_db.py or python3 init_db.py
 ```
 
 ## Usage
@@ -67,8 +67,14 @@ Example usage:
 
 ```bash
 python main.py register
+python main.py login
 python main.py add
+python main.py update
 python main.py list
+python main.py delete
+python main.py category-add
+python main.py category-list
+python main.py category-delete
 python main.py note-add
 python main.py subtask-add
 ```

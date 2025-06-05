@@ -180,6 +180,31 @@ def category_delete(category_id, user_id):
         click.echo(result['message'])
 
 @cli.command()
+@click.option('--category-id', prompt=True, type=int)
+@click.option('--user-id', prompt=True, type=int)
+@click.option('--name', prompt=True, required=False)
+@click.option('--color', prompt=True, required=False)
+def category_update(category_id, user_id, name, color):
+    """Update a category"""
+    updates = {}
+    if name:
+        updates['name'] = name
+    if color:
+        updates['color'] = color
+
+    if not updates:
+        click.echo("No updates provided")
+        return
+
+    result = update_category(category_id, user_id, updates)
+    if 'message' in result:
+        click.echo(result['message'])
+    elif 'error' in result:
+        click.echo(f"Error: {result['error']}")
+    else:
+        click.echo("Unknown response from update_category")
+
+@cli.command()
 @click.option('--task-id', prompt=True, type=int)
 @click.option('--user-id', prompt=True, type=int)
 def delete(task_id, user_id):
@@ -202,27 +227,24 @@ from commands.subtask_commands import (
 @cli.command()
 @click.option('--content', prompt=True)
 @click.option('--task-id', prompt=True, type=int)
-@click.option('--user-id', prompt=True, type=int)
-def note_add(content, task_id, user_id):
+def note_add(content, task_id):
     """Add a new note"""
-    result = create_note(content, task_id, user_id)
+    result = create_note(content, task_id)
     click.echo(f"Note created with ID: {result['note_id']}")
 
 @cli.command()
 @click.option('--task-id', prompt=True, type=int)
-@click.option('--user-id', prompt=True, type=int)
-def note_list(task_id, user_id):
+def note_list(task_id):
     """List all notes for a task"""
-    notes = get_notes(task_id, user_id)
+    notes = get_notes(task_id)
     for note in notes:
         click.echo(f"{note.id}: {note.content}")
 
 @cli.command()
 @click.option('--note-id', prompt=True, type=int)
-@click.option('--user-id', prompt=True, type=int)
-def note_show(note_id, user_id):
+def note_show(note_id):
     """Show note details"""
-    result = get_note_details(note_id, user_id)
+    result = get_note_details(note_id)
     if isinstance(result, dict) and 'error' in result:
         click.echo(f"Error: {result['error']}")
     else:
@@ -230,9 +252,8 @@ def note_show(note_id, user_id):
 
 @cli.command()
 @click.option('--note-id', prompt=True, type=int)
-@click.option('--user-id', prompt=True, type=int)
 @click.option('--content', prompt=True, required=False)
-def note_update(note_id, user_id, content):
+def note_update(note_id, content):
     """Update a note"""
     updates = {}
     if content:
@@ -242,7 +263,7 @@ def note_update(note_id, user_id, content):
         click.echo("No updates provided")
         return
 
-    result = update_note(note_id, user_id, updates)
+    result = update_note(note_id, updates)
     if 'message' in result:
         click.echo(result['message'])
     elif 'error' in result:
@@ -252,10 +273,9 @@ def note_update(note_id, user_id, content):
 
 @cli.command()
 @click.option('--note-id', prompt=True, type=int)
-@click.option('--user-id', prompt=True, type=int)
-def note_delete(note_id, user_id):
+def note_delete(note_id):
     """Delete a note"""
-    result = delete_note(note_id, user_id)
+    result = delete_note(note_id)
     if 'error' in result:
         click.echo(f"Error: {result['error']}")
     else:
@@ -293,10 +313,9 @@ def subtask_show(subtask_id, user_id):
 
 @cli.command()
 @click.option('--subtask-id', prompt=True, type=int)
-@click.option('--user-id', prompt=True, type=int)
 @click.option('--title', prompt=True, required=False)
 @click.option('--completed', prompt=True, required=False, type=bool)
-def subtask_update(subtask_id, user_id, title, completed):
+def subtask_update(subtask_id, title, completed):
     """Update a subtask"""
     updates = {}
     if title:
@@ -308,7 +327,7 @@ def subtask_update(subtask_id, user_id, title, completed):
         click.echo("No updates provided")
         return
 
-    result = update_subtask(subtask_id, user_id, updates)
+    result = update_subtask(subtask_id, updates)
     if 'message' in result:
         click.echo(result['message'])
     elif 'error' in result:
@@ -318,10 +337,9 @@ def subtask_update(subtask_id, user_id, title, completed):
 
 @cli.command()
 @click.option('--subtask-id', prompt=True, type=int)
-@click.option('--user-id', prompt=True, type=int)
-def subtask_delete(subtask_id, user_id):
+def subtask_delete(subtask_id):
     """Delete a subtask"""
-    result = delete_subtask(subtask_id, user_id)
+    result = delete_subtask(subtask_id)
     if 'error' in result:
         click.echo(f"Error: {result['error']}")
     else:
