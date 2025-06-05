@@ -108,3 +108,6 @@ ENV/
 env/
 venv.bak/
 venv.bak2/
+
+# Database files
+*.db
